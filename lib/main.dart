@@ -46,6 +46,18 @@ class MapsDemoState extends State<MapsDemo> {
     locationSubcription = location.onLocationChanged().listen((Map<String, double> result){
       setState(() {
         currentLocation = result;
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+                target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 10),
+          ),
+        );
+        mapController.clearMarkers();
+        mapController.addMarker(
+          MarkerOptions(
+            position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
+          ),
+        );
       });
     });
   }
@@ -61,9 +73,10 @@ class MapsDemoState extends State<MapsDemo> {
           Container(
             child: SizedBox(
               width: double.infinity,
-              height: 400.0,
+              height: 200.0,
               child: GoogleMap(
-                initialCameraPosition: CameraPosition(target: LatLng(45.521563, -122.677433)),
+                initialCameraPosition: CameraPosition(target: LatLng(currentLocation['latitude'], currentLocation['longitude']),
+                zoom: 10),
                 onMapCreated: _onMapCreated,
               ),
             ),
@@ -77,7 +90,9 @@ class MapsDemoState extends State<MapsDemo> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    setState(() { mapController = controller; });
+    setState(() {
+      mapController = controller;
+    });
   }
 
   void initPlatformState() async {
