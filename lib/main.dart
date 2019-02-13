@@ -29,7 +29,7 @@ class ChooseUserState extends State<ChooseUser> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
-              child: Text("I'm Host"),
+              child: Text("Share my realtime location"),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -37,7 +37,7 @@ class ChooseUserState extends State<ChooseUser> {
                 );
               },),
             RaisedButton(
-              child: Text("I'm Reciver"),
+              child: Text("Get realtime location"),
               onPressed: () {
                 Navigator.push(
                   context,

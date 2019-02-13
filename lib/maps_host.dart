@@ -5,6 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 
+import 'package:device_id/device_id.dart';
+
 class MapsDemo extends StatefulWidget {
   @override
   State createState() => MapsDemoState();
@@ -20,10 +22,24 @@ class MapsDemoState extends State<MapsDemo> {
   Location location = new Location();
   String error;
 
+  String _deviceid = 'Unknown';
+
+  Future<void> initDeviceId() async {
+    String deviceid;
+
+    deviceid = await DeviceId.getID;
+
+    if (!mounted) return;
+
+    setState(() {
+      _deviceid = deviceid;
+    });
+  }
+
   @override
   void initState(){
     super.initState();
-
+    initDeviceId();
     currentLocation['latitude'] = 0.0;
     currentLocation['longitude'] = 0.0;
 
@@ -93,7 +109,8 @@ class MapsDemoState extends State<MapsDemo> {
               ),
               Container(
                 child: Text('Lat/Lng: ${currentLocation['latitude']}/${currentLocation['longitude']}'),
-              )
+              ),
+              Text("Hello: $_deviceid")
             ],
           ),
         )
