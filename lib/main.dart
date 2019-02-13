@@ -1,9 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_maps/maps_host.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,103 +8,46 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-        appBar: AppBar(title: const Text('Google Maps Flutter')),
-        body: MapsDemo(),
-    )
+        home: ChooseUser()
     );
   }
 }
 
-class MapsDemo extends StatefulWidget {
+class ChooseUser extends StatefulWidget{
   @override
-  State createState() => MapsDemoState();
+  State createState() => ChooseUserState();
 }
 
-class MapsDemoState extends State<MapsDemo> {
-
-  GoogleMapController mapController;
-
-  Map<String, double> currentLocation = new Map();
-  StreamSubscription<Map<String, double>> locationSubcription;
-
-  Location location = new Location();
-  String error;
-
-  @override
-  void initState(){
-    super.initState();
-
-    currentLocation['latitude'] = 0.0;
-    currentLocation['longitude'] = 0.0;
-
-    initPlatformState();
-    locationSubcription = location.onLocationChanged().listen((Map<String, double> result){
-      setState(() {
-        currentLocation = result;
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-                target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 10),
-          ),
-        );
-        mapController.clearMarkers();
-        mapController.addMarker(
-          MarkerOptions(
-            position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
-          ),
-        );
-      });
-    });
-  }
-
-
+class ChooseUserState extends State<ChooseUser> {
   @override
   Widget build(BuildContext context) {
-
-    return Padding(
-      padding: EdgeInsets.all(0),
-      child: Column(
-        children: <Widget>[
-          Container(
-            child: SizedBox(
-              width: double.infinity,
-              height: 200.0,
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(target: LatLng(currentLocation['latitude'], currentLocation['longitude']),
-                zoom: 10),
-                onMapCreated: _onMapCreated,
-              ),
-            ),
-          ),
-          Container(
-            child: Text('Lat/Lng: ${currentLocation['latitude']}/${currentLocation['longitude']}'),
-          )
-        ],
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(title: const Text('Google Maps Flutter')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+              child: Text("I'm Host"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MapsDemo()),
+                );
+              },),
+            RaisedButton(
+              child: Text("I'm Reciver"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MapsDemo()),
+                );
+              },)
+          ],
+        ),
       ),
     );
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      mapController = controller;
-    });
-  }
-
-  void initPlatformState() async {
-    Map<String, double> my_location;
-    try{
-      my_location = await location.getLocation();
-      error = "";
-    }on PlatformException catch(e){
-      if(e.code == 'PERMISSION_DENIED')
-        error = 'Permission Denied';
-      else if(e.code == 'PERMISSION_DENIED_NEVER_ASK')
-        error = 'Permission denied - please ask the user to enable it from the app settings';
-      my_location = null;
-    }
-    setState(() {
-      currentLocation = my_location;
-    });
-  }
 }
