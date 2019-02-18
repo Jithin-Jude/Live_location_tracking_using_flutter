@@ -6,15 +6,43 @@ import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 
 import 'package:device_id/device_id.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-class MapsDemo extends StatefulWidget {
+class MapsReceiver extends StatefulWidget {
   @override
-  State createState() => MapsDemoState();
+  State createState() => MapsReceiverState();
 }
 
-class MapsDemoState extends State<MapsDemo> {
+class MapsReceiverState extends State<MapsReceiver> {
 
-  GoogleMapController mapController;
+  static final databaseReference = FirebaseDatabase.instance.reference();
+
+  static GoogleMapController mapController;
+
+  var subscription = FirebaseDatabase.instance
+      .reference()
+      .child('aef81f6ac80fd7d8')
+      .onValue
+      .listen((event) {
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: LatLng(event.snapshot.value['latitude'], event.snapshot.value['longitude']), zoom: 10),
+      ),
+    );
+    mapController.clearMarkers();
+    mapController.addMarker(
+      MarkerOptions(
+        position: LatLng(event.snapshot.value['latitude'], event.snapshot.value['longitude']),
+      ),
+    );
+  });
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
 
   Map<String, double> currentLocation = new Map();
   StreamSubscription<Map<String, double>> locationSubcription;
@@ -44,23 +72,6 @@ class MapsDemoState extends State<MapsDemo> {
     currentLocation['longitude'] = 0.0;
 
     initPlatformState();
-    locationSubcription = location.onLocationChanged().listen((Map<String, double> result){
-      setState(() {
-        currentLocation = result;
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-                target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 10),
-          ),
-        );
-        mapController.clearMarkers();
-        mapController.addMarker(
-          MarkerOptions(
-            position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
-          ),
-        );
-      });
-    });
   }
 
   void _onMapCreated(GoogleMapController controller) {

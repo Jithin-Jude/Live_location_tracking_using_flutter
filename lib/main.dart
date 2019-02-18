@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_maps/maps_host.dart';
+import 'package:flutter_maps/maps_receiver.dart';
 import 'package:flutter_maps/coordinates_model.dart';
 
 void main() => runApp(MyApp());
@@ -39,9 +40,10 @@ class ChooseUser extends StatelessWidget {
                     RaisedButton(
                       child: Text("Get realtime location"),
                       onPressed: () {
-                        Scaffold.of(context).showSnackBar(new SnackBar(
-                          content: new Text("TODO"),
-                        ));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MapsReceiver()),
+                        );
                       },)
                   ],
                 ),

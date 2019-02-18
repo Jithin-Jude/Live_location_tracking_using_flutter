@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 
 import 'package:device_id/device_id.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_maps/coordinates_model.dart';
 
 class MapsDemo extends StatefulWidget {
 
@@ -48,10 +47,9 @@ class MapsDemoState extends State<MapsDemo> {
   }
 
   void UpdateDatabase(){
-    databaseReference.child("deviceOne").set({
+    databaseReference.child(_deviceid).set({
       'latitude': currentLocation['latitude'],
       'longitude': currentLocation['longitude'],
-      'device_id': _deviceid
     });
   }
 
