@@ -17,32 +17,12 @@ class MapsReceiverState extends State<MapsReceiver> {
 
   static final databaseReference = FirebaseDatabase.instance.reference();
 
+  static double currentLatitude;
+  static double currentLongitude;
+
   static GoogleMapController mapController;
 
-  var subscription = FirebaseDatabase.instance
-      .reference()
-      .child('aef81f6ac80fd7d8')
-      .onValue
-      .listen((event) {
-    mapController.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-            target: LatLng(event.snapshot.value['latitude'], event.snapshot.value['longitude']), zoom: 10),
-      ),
-    );
-    mapController.clearMarkers();
-    mapController.addMarker(
-      MarkerOptions(
-        position: LatLng(event.snapshot.value['latitude'], event.snapshot.value['longitude']),
-      ),
-    );
-  });
-
-  @override
-  void dispose() {
-    subscription.cancel();
-    super.dispose();
-  }
+  StreamSubscription subscription;
 
   Map<String, double> currentLocation = new Map();
   StreamSubscription<Map<String, double>> locationSubcription;
@@ -50,50 +30,46 @@ class MapsReceiverState extends State<MapsReceiver> {
   Location location = new Location();
   String error;
 
-  String _deviceid = 'Unknown';
+  String deviceid = 'Unknown';
 
-  Future<void> initDeviceId() async {
-    String deviceid;
-
-    deviceid = await DeviceId.getID;
-
-    if (!mounted) return;
-
-    setState(() {
-      _deviceid = deviceid;
-    });
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
   }
 
   @override
   void initState(){
     super.initState();
-    initDeviceId();
-    currentLocation['latitude'] = 0.0;
-    currentLocation['longitude'] = 0.0;
 
-    initPlatformState();
+    subscription = FirebaseDatabase.instance
+        .reference()
+        .child('aef81f6ac80fd7d8')
+        .onValue
+        .listen((event) {
+      setState(() {
+        deviceid = event.snapshot.key;
+        currentLatitude = event.snapshot.value['latitude'];
+        currentLongitude = event.snapshot.value['longitude'];
+      });
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(event.snapshot.value['latitude'], event.snapshot.value['longitude']), zoom: 10),
+        ),
+      );
+      mapController.clearMarkers();
+      mapController.addMarker(
+        MarkerOptions(
+          position: LatLng(event.snapshot.value['latitude'], event.snapshot.value['longitude']),
+        ),
+      );
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
-    });
-  }
-
-  void initPlatformState() async {
-    Map<String, double> my_location;
-    try{
-      my_location = await location.getLocation();
-      error = "";
-    }on PlatformException catch(e){
-      if(e.code == 'PERMISSION_DENIED')
-        error = 'Permission Denied';
-      else if(e.code == 'PERMISSION_DENIED_NEVER_ASK')
-        error = 'Permission denied - please ask the user to enable it from the app settings';
-      my_location = null;
-    }
-    setState(() {
-      currentLocation = my_location;
     });
   }
 
@@ -110,18 +86,18 @@ class MapsReceiverState extends State<MapsReceiver> {
               Container(
                 child: SizedBox(
                   width: double.infinity,
-                  height: 200.0,
+                  height: 350.0,
                   child: GoogleMap(
-                    initialCameraPosition: CameraPosition(target: LatLng(currentLocation['latitude'], currentLocation['longitude']),
+                    initialCameraPosition: CameraPosition(target: LatLng(currentLatitude, currentLongitude),
                         zoom: 10),
                     onMapCreated: _onMapCreated,
                   ),
                 ),
               ),
               Container(
-                child: Text('Lat/Lng: ${currentLocation['latitude']}/${currentLocation['longitude']}'),
+                child: Text('Lat/Lng: $currentLatitude/$currentLongitude'),
               ),
-              Text("Device ID: $_deviceid")
+              Text("Device ID: $deviceid")
             ],
           ),
         )

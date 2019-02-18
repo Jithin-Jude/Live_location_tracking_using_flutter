@@ -121,7 +121,7 @@ class MapsDemoState extends State<MapsDemo> {
                       Container(
                         child: SizedBox(
                           width: double.infinity,
-                          height: 200.0,
+                          height: 350.0,
                           child: GoogleMap(
                             initialCameraPosition: CameraPosition(target: LatLng(currentLocation['latitude'], currentLocation['longitude']),
                                 zoom: 10),
