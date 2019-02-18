@@ -111,7 +111,7 @@ class MapsDemoState extends State<MapsDemo> {
 
 
     return Scaffold(
-        appBar: AppBar(title: const Text('Google Maps Flutter')),
+        appBar: AppBar(title: const Text('Host')),
         body: Builder(
             builder: (context) =>
                 Padding(

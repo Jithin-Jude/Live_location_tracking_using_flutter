@@ -78,7 +78,7 @@ class MapsReceiverState extends State<MapsReceiver> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: AppBar(title: const Text('Google Maps Flutter')),
+        appBar: AppBar(title: const Text('Reciver')),
         body: Padding(
           padding: EdgeInsets.all(0),
           child: Column(
