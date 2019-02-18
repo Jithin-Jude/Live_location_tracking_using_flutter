@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_maps/maps_host.dart';
+import 'package:flutter_maps/coordinates_model.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,40 +14,39 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ChooseUser extends StatefulWidget{
-  @override
-  State createState() => ChooseUserState();
-}
+class ChooseUser extends StatelessWidget {
+  CoordinatesModel coordinatesModel;
 
-class ChooseUserState extends State<ChooseUser> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(title: const Text('Google Maps Flutter')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              child: Text("Share my realtime location"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MapsDemo()),
-                );
-              },),
-            RaisedButton(
-              child: Text("Get realtime location"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MapsDemo()),
-                );
-              },)
-          ],
-        ),
-      ),
+      body: Builder(
+          builder: (context) =>
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text("Share my realtime location"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MapsDemo()),
+                        );
+                      },),
+                    RaisedButton(
+                      child: Text("Get realtime location"),
+                      onPressed: () {
+                        Scaffold.of(context).showSnackBar(new SnackBar(
+                          content: new Text("TODO"),
+                        ));
+                      },)
+                  ],
+                ),
+              ),
+      )
     );
   }
 

@@ -6,24 +6,13 @@ import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 
 import 'package:device_id/device_id.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_maps/coordinates_model.dart';
 
 class MapsDemo extends StatefulWidget {
-
   @override
   State createState() => MapsDemoState();
 }
 
 class MapsDemoState extends State<MapsDemo> {
-
-  void showSnackBar(BuildContext context){
-    Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text("done"),
-    ));
-  }
-
-  final databaseReference = FirebaseDatabase.instance.reference();
 
   GoogleMapController mapController;
 
@@ -44,14 +33,6 @@ class MapsDemoState extends State<MapsDemo> {
 
     setState(() {
       _deviceid = deviceid;
-    });
-  }
-
-  void UpdateDatabase(){
-    databaseReference.child("deviceOne").set({
-      'latitude': currentLocation['latitude'],
-      'longitude': currentLocation['longitude'],
-      'device_id': _deviceid
     });
   }
 
@@ -79,7 +60,6 @@ class MapsDemoState extends State<MapsDemo> {
           ),
         );
       });
-      UpdateDatabase();
     });
   }
 
@@ -110,34 +90,29 @@ class MapsDemoState extends State<MapsDemo> {
   @override
   Widget build(BuildContext context) {
 
-
-
     return Scaffold(
         appBar: AppBar(title: const Text('Google Maps Flutter')),
-        body: Builder(
-            builder: (context) =>
-                Padding(
-                  padding: EdgeInsets.all(0),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 200.0,
-                          child: GoogleMap(
-                            initialCameraPosition: CameraPosition(target: LatLng(currentLocation['latitude'], currentLocation['longitude']),
-                                zoom: 10),
-                            onMapCreated: _onMapCreated,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text('Lat/Lng: ${currentLocation['latitude']}/${currentLocation['longitude']}'),
-                      ),
-                      Text("Device ID: $_deviceid"),
-                    ],
+        body: Padding(
+          padding: EdgeInsets.all(0),
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 200.0,
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(target: LatLng(currentLocation['latitude'], currentLocation['longitude']),
+                        zoom: 10),
+                    onMapCreated: _onMapCreated,
                   ),
-                )
+                ),
+              ),
+              Container(
+                child: Text('Lat/Lng: ${currentLocation['latitude']}/${currentLocation['longitude']}'),
+              ),
+              Text("Device ID: $_deviceid")
+            ],
+          ),
         )
     );
   }
