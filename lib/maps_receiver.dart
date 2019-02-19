@@ -3,9 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:flutter/services.dart';
-
-import 'package:device_id/device_id.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class MapsReceiver extends StatefulWidget {
@@ -17,8 +14,8 @@ class MapsReceiverState extends State<MapsReceiver> {
 
   static final databaseReference = FirebaseDatabase.instance.reference();
 
-  static double currentLatitude;
-  static double currentLongitude;
+  static double currentLatitude = 0.0;
+  static double currentLongitude = 0.0;
 
   static GoogleMapController mapController;
 
