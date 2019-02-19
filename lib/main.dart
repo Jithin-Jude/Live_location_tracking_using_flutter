@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_maps/maps_host.dart';
-import 'package:flutter_maps/maps_receiver.dart';
+import 'package:flutter_maps/choose_device.dart';
 import 'package:flutter_maps/coordinates_model.dart';
 
 void main() => runApp(MyApp());
@@ -57,7 +57,7 @@ class ChooseUser extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => MapsReceiver()),
+                              MaterialPageRoute(builder: (context) => ChooseDevice()),
                             );
                           },)
                     )
