@@ -8,13 +8,13 @@ import 'package:flutter/services.dart';
 import 'package:device_id/device_id.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class MapsDemo extends StatefulWidget {
+class MapsHost extends StatefulWidget {
 
   @override
-  State createState() => MapsDemoState();
+  State createState() => MapsHostState();
 }
 
-class MapsDemoState extends State<MapsDemo> {
+class MapsHostState extends State<MapsHost> {
 
   void showSnackBar(BuildContext context){
     Scaffold.of(context).showSnackBar(new SnackBar(

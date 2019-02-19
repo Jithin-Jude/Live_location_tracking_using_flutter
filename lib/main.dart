@@ -40,7 +40,7 @@ class ChooseUser extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MapsDemo()),
+                            MaterialPageRoute(builder: (context) => MapsHost()),
                           );
                         },),
                     ),
