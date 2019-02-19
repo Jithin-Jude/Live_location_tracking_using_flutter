@@ -29,22 +29,38 @@ class ChooseUser extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    RaisedButton(
-                      child: Text("Share my realtime location"),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MapsDemo()),
-                        );
-                      },),
-                    RaisedButton(
-                      child: Text("Get realtime location"),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MapsReceiver()),
-                        );
-                      },)
+                    SizedBox(
+                      width: 200,
+                      height: 50,
+                      child: RaisedButton(
+                        color: Colors.blue,
+                        textColor: Colors.white,
+                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                        child: Text("Share my realtime location"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MapsDemo()),
+                          );
+                        },),
+                    ),
+                    Padding(padding: const EdgeInsets.all(8.0),
+                    ),
+                    SizedBox(
+                        width: 200,
+                        height: 50,
+                        child: RaisedButton(
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                          child: Text("Get realtime location"),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MapsReceiver()),
+                            );
+                          },)
+                    )
                   ],
                 ),
               ),
