@@ -36,22 +36,14 @@ class ChooseDeviceState extends State<ChooseDevice> {
   @override
   void initState(){
     super.initState();
-    list.add("apple");
-    list.add("orange");
-    list.add("grapes");
-    list.add("guvaya");
-    list.add("qwerty");
-    list.add("apple");
-    list.add("asdf");
-    list.add("zxcv");
-    list.add("jkl");
-    list.add("apple");
-    list.add("qaz");
-    list.add("wsx");
-    list.add("dfrg");
-    list.add("grtfdcvgh");
-    list.add("dfrgmjla");
-    list.add("kkkkdjeee");
+    databaseReference.once().then((DataSnapshot snapshot){
+      Map<dynamic, dynamic> values = snapshot.value;
+      values.forEach((key,values) {
+        setState(() {
+          list.add(key);
+        });
+      });
+    });
   }
 
 
@@ -67,7 +59,7 @@ class ChooseDeviceState extends State<ChooseDevice> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MapsReceiver()),
+                    MaterialPageRoute(builder: (context) => MapsReceiver(deviceid: list[index])),
                   );
                 },
                 child: Card(

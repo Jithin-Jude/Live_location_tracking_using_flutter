@@ -6,6 +6,8 @@ import 'package:location/location.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class MapsReceiver extends StatefulWidget {
+  final String deviceid;
+  MapsReceiver({Key key, @required this.deviceid}) : super(key: key);
   @override
   State createState() => MapsReceiverState();
 }
@@ -27,8 +29,6 @@ class MapsReceiverState extends State<MapsReceiver> {
   Location location = new Location();
   String error;
 
-  String deviceid = 'Unknown';
-
   @override
   void dispose() {
     subscription.cancel();
@@ -41,11 +41,10 @@ class MapsReceiverState extends State<MapsReceiver> {
 
     subscription = FirebaseDatabase.instance
         .reference()
-        .child('aef81f6ac80fd7d8')
+        .child(widget.deviceid)
         .onValue
         .listen((event) {
       setState(() {
-        deviceid = event.snapshot.key;
         currentLatitude = event.snapshot.value['latitude'];
         currentLongitude = event.snapshot.value['longitude'];
       });
@@ -94,7 +93,7 @@ class MapsReceiverState extends State<MapsReceiver> {
               Container(
                 child: Text('Lat/Lng: $currentLatitude/$currentLongitude'),
               ),
-              Text("Device ID: $deviceid")
+              Text("Device ID: ${widget.deviceid}")
             ],
           ),
         )
