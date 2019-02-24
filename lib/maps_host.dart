@@ -67,10 +67,9 @@ class MapsHostState extends State<MapsHost> {
         mapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
-                target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 10),
+                target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 17),
           ),
         );
-        mapController.clearMarkers();
         mapController.addMarker(
           MarkerOptions(
             position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
@@ -124,7 +123,7 @@ class MapsHostState extends State<MapsHost> {
                           height: 350.0,
                           child: GoogleMap(
                             initialCameraPosition: CameraPosition(target: LatLng(currentLocation['latitude'], currentLocation['longitude']),
-                                zoom: 10),
+                                zoom: 17),
                             onMapCreated: _onMapCreated,
                           ),
                         ),

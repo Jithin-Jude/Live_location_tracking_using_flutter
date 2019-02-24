@@ -51,10 +51,9 @@ class MapsReceiverState extends State<MapsReceiver> {
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-              target: LatLng(event.snapshot.value['latitude'], event.snapshot.value['longitude']), zoom: 10),
+              target: LatLng(event.snapshot.value['latitude'], event.snapshot.value['longitude']), zoom: 17),
         ),
       );
-      mapController.clearMarkers();
       mapController.addMarker(
         MarkerOptions(
           position: LatLng(event.snapshot.value['latitude'], event.snapshot.value['longitude']),
@@ -85,7 +84,7 @@ class MapsReceiverState extends State<MapsReceiver> {
                   height: 350.0,
                   child: GoogleMap(
                     initialCameraPosition: CameraPosition(target: LatLng(currentLatitude, currentLongitude),
-                        zoom: 10),
+                        zoom: 17),
                     onMapCreated: _onMapCreated,
                   ),
                 ),
