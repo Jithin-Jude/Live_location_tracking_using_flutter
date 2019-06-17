@@ -1,16 +1,8 @@
-# flutter_maps
+# Live Location Tracker
+Made with Flutter & Firebase Realtime Database
 
-A new Flutter application.
+Working
+-
+![videotogif_2019 06 17_18 58 54](https://user-images.githubusercontent.com/20029287/59608276-a38f9880-9132-11e9-8baf-b8a1d3699b33.gif)
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+[Demo on YouTube](https://youtu.be/mmj3c92WmjA)
